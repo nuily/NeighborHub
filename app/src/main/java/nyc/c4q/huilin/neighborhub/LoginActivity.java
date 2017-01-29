@@ -1,4 +1,4 @@
-package nyc.c4q.huilin.neighborhoodhub;
+package nyc.c4q.huilin.neighborhub;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

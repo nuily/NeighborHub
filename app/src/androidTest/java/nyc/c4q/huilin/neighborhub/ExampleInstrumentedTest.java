@@ -1,4 +1,4 @@
-package nyc.c4q.huilin.neighborhoodhub;
+package nyc.c4q.huilin.neighborhub;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
