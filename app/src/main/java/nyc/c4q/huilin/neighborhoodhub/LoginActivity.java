@@ -1,5 +1,6 @@
 package nyc.c4q.huilin.neighborhoodhub;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,7 +16,7 @@ import java.net.URI;
  * Created by rook on 1/29/17.
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LocationFragment.OnFragmentInteractionListener {
 
     ImageView profileImage;
     TextView googleLogin;
@@ -29,7 +30,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         profileImage = (ImageView) findViewById(R.id.iv_login);
         googleLogin = (TextView) findViewById(R.id.tv_google_login);
         facebookLogin = (TextView) findViewById(R.id.tv_facebook_login);
-        userProfilePic  = null;
+        userProfilePic = null;
+
     }
 
     @Override
@@ -64,5 +66,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void googleLoginProcess() {
         Toast.makeText(this, "Logging in using Google", Toast.LENGTH_SHORT).show();
+        startLocationServices();
+    }
+
+    private void startLocationServices() {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, LocationFragment.newInstance())
+                .commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
