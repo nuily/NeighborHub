@@ -134,7 +134,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
 
         } else {
             Log.d(TAG, "onConnected: null object");
-            // ??? how to ask user to turn on GPS
+            // often gets null unless i turn on location
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }
 
