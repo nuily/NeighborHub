@@ -1,10 +1,8 @@
 package nyc.c4q.huilin.neighborhoodhub;
 
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.firebase.client.Firebase;
+import android.support.v7.app.AppCompatActivity;
 
 public class DisplayActivity extends AppCompatActivity implements LocationFragment.OnFragmentInteractionListener {
 
@@ -13,7 +11,6 @@ public class DisplayActivity extends AppCompatActivity implements LocationFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addLocationFragment();
-        Firebase.setAndroidContext(this);
     }
 
     private void addLocationFragment() {
