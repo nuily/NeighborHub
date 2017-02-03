@@ -21,8 +21,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 
-import java.util.concurrent.TimeUnit;
+import nyc.c4q.huilin.neighborhoodhub.utils.Constants;
 
 
 /**
@@ -39,6 +40,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     private GoogleApiClient googleApiClient;
     private Location lastLocation;
     private LocationRequest locationRequest;
+    private LocationSettingsRequest locationSettingsRequest;
 
     public LocationFragment() {
     }
@@ -52,25 +54,27 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createLocationRequest();
-        createGoogleAPIClient();
+        try {
+            GoogleServices.setLocationClient(getActivity().getApplicationContext(), this, this);
+            googleApiClient = GoogleServices.getLocationClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createLocationRequest() {
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .setInterval(TimeUnit.MINUTES.toMinutes(1))
-                .setFastestInterval(TimeUnit.MINUTES.toMinutes(60));
+                .setInterval(Constants.UPDATE_INTERVAL)
+                .setFastestInterval(Constants.FASTEST_INTERVAL);
     }
 
-    private void createGoogleAPIClient() {
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(getContext())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
+    private void createLocationSettingsRequest() {
+        locationSettingsRequest = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest)
+                .build();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,7 +92,9 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     @Override
     public void onStart() {
         super.onStart();
-        googleApiClient.connect();
+        if (googleApiClient != null) {
+            googleApiClient.connect();
+        }
     }
 
     @Override
@@ -119,6 +125,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
 
     @Override
     public void onConnected(@Nullable Bundle connectionHint) {
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -133,7 +140,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
                     lastLocation.getLatitude() + String.valueOf(lastLocation.getLongitude())));
 
         } else {
-            Log.d(TAG, "onConnected: null object");
+            Log.d(TAG, "onConnected: no last connection found - request location update");
             // often gets null unless i turn on location
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
         }

@@ -54,16 +54,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userProfilePic = null;
 
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken(BuildConfig.O_AUTH_CLIENT_ID)
-                .build();
+        gso = GoogleServices.getGsoInstance();
 
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        try {
+            GoogleServices.setLoginClient(getApplicationContext());
+            googleApiClient = GoogleServices.getLoginClient();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         firebaseAuth = FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -86,30 +84,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-        protected void onResume () {
-            super.onResume();
+    protected void onResume() {
+        super.onResume();
 
-            Picasso.with(this).load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
-            googleLogin.setOnClickListener(this);
-            facebookLogin.setOnClickListener(this);
+        Picasso.with(this).load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
+        googleLogin.setOnClickListener(this);
+        facebookLogin.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.tv_google_login:
+                googleLoginProcess();
+                break;
+            case R.id.tv_facebook_login:
+                facebookLoginProcess();
+                break;
+            default:
+                break;
         }
 
-        @Override
-        public void onClick (View view){
-
-            switch (view.getId()) {
-                case R.id.tv_google_login:
-                    googleLoginProcess();
-                    break;
-                case R.id.tv_facebook_login:
-                    facebookLoginProcess();
-                    break;
-                default:
-                    break;
-            }
-
-        }
+    }
 
     @Override
     protected void onStop() {
@@ -125,8 +123,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void googleLoginProcess() {
         Toast.makeText(this, "Logging in using Google", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(this, DisplayActivity.class);
-//        startActivity(intent);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, Constants.RC_GOOGLE_LOGIN);
     }
@@ -155,6 +151,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             gmail = acct.getEmail();
             // Google Sign In was successful, authenticate with Firebase
             firebaseAuthWithGoogle(acct);
+            Intent intent = new Intent(this, DisplayActivity.class);
+            startActivity(intent);
         } else {
             // Google Sign In failed, update UI appropriately
             // ...
