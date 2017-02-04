@@ -1,27 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10">
 
     <TextView
         android:id="@+id/tv_full_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
         android:text="Title Here"
         android:textColor="@color/colorAccent"
-        android:textSize="30dp"
-        android:padding="8dp"/>
+        android:textSize="30dp" />
 
-    <TextView
-        android:id="@+id/tv_full_desc"
+    <ScrollView
+        android:id="@+id/sv_full_desc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:text="Full Description Here"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="20dp"
-        android:padding="16dp"/>
+        android:layout_weight="8">
+
+        <TextView
+            android:id="@+id/tv_full_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Full Description Here"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20dp" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_full_desc_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tv_pledge"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="4dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#C5E1A5"
+            android:drawableLeft="@drawable/pledge_48"
+            android:textColor="#000000"
+            android:textSize="24dp"
+            android:text="Pledge!"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_pass"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            android:paddingLeft="4dp"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#EF9A9A"
+            android:drawableLeft="@drawable/pass_48"
+            android:textColor="#000000"
+            android:textSize="24dp"
+            android:text="Pass"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
 
 </LinearLayout>
