@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:orientation="vertical"
-    app:cardElevation="14dp">
+    app:cardElevation="14dp"
+    android:layout_marginBottom="8dp">
 
     <LinearLayout
         android:id="@+id/ll_post_card_main"
@@ -25,7 +26,7 @@
             android:paddingLeft="4dp"
             android:text="Title Here"
             android:textColor="@color/colorPostHeading"
-            android:textSize="28dp" />
+            android:textSize="26dp" />
 
         <TextView
             android:id="@+id/tv_short_desc"
@@ -37,7 +38,7 @@
             android:paddingLeft="4dp"
             android:text="Short Description Here (uses ellipse, 2 max lines). More text here. Blah blah blah lorem ipsum etcetera and more."
             android:textColor="@color/colorPostText"
-            android:textSize="16dp" />
+            android:textSize="15dp" />
 
         <LinearLayout
             android:id="@+id/ll_post_card_footer"

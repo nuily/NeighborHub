@@ -20,6 +20,10 @@ public class CrierPost implements Serializable {
         this.supporters = supporters;
     }
 
+    public CrierPost() {
+
+    }
+
     public Long get_id() {
         return _id;
     }

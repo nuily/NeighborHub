@@ -14,10 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nl.qbusict.cupboard.QueryResultIterable;
 import nyc.c4q.huilin.neighborhoodhub.R;
+import nyc.c4q.huilin.neighborhoodhub.model.CrierPostDataProvider;
 import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 import nyc.c4q.huilin.neighborhoodhub.model.database.CrierDatabaseHelper;
 
@@ -34,14 +34,14 @@ public class CrierRecyclerFragment extends Fragment {
     TextView tvAddCrier;
 
     CrierAdapter adapter;
-    static List<CrierPost> crierPostList;
+    static ArrayList<CrierPost> crierPostList;
     SQLiteDatabase database;
 
     public static CrierRecyclerFragment newInstance() {
-        CrierRecyclerFragment crierFragment = new CrierRecyclerFragment();
+        CrierRecyclerFragment crierRecyclerFragment = new CrierRecyclerFragment();
         Bundle args = new Bundle();
-        crierFragment.setArguments(args);
-        return crierFragment;
+        crierRecyclerFragment.setArguments(args);
+        return crierRecyclerFragment;
     }
 
     public CrierRecyclerFragment() {
@@ -73,18 +73,26 @@ public class CrierRecyclerFragment extends Fragment {
                 addNewCrier();
             }
         });
-
         database = instantiateDatabase();
 
         crierPostList = new ArrayList<>();
         crierPostList = loadDatabase(database);
+
+        initRecycler();
+    }
+
+    private void initRecycler() {
+
         adapter = new CrierAdapter(crierPostList);
+        adapter.notifyDataSetChanged();
         rvCrier.setAdapter(adapter);
         rvCrier.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.notifyDataSetChanged();
+        System.out.println("Item Count = " + adapter.getItemCount());
 
     }
 
-    private List<CrierPost> loadDatabase(SQLiteDatabase database) {
+    private ArrayList<CrierPost> loadDatabase(SQLiteDatabase database) {
         try {
             QueryResultIterable<CrierPost> iterable = cupboard()
                     .withDatabase(database)
@@ -96,7 +104,7 @@ public class CrierRecyclerFragment extends Fragment {
         } catch (Exception e) {
             Log.i("loadDataBase", "Stacktrace: " + e);
         }
-
+        System.out.println("CrierPostList Size = " + crierPostList.size());
         return crierPostList;
     }
 
@@ -114,8 +122,8 @@ public class CrierRecyclerFragment extends Fragment {
             cursor.close();
             return database;
         } else {
-            for (int i = 0; i < crierPostList.size(); i++) {
-                cupboard().withDatabase(database).put(crierPostList.get(i));
+            for (int i = 0; i < CrierPostDataProvider.dataProviderPostList.size(); i++) {
+                cupboard().withDatabase(database).put(CrierPostDataProvider.dataProviderPostList.get(i));
             }
         }
         cursor.close();

@@ -17,14 +17,14 @@ import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 
 public class CrierAdapter extends RecyclerView.Adapter {
 
-    List<CrierPost> crierPostList = new ArrayList<>();
+    ArrayList<CrierPost> postList = new ArrayList<>();
 
-    public CrierAdapter(List<CrierPost> crierPosts) {
-        crierPostList = crierPosts;
+    public CrierAdapter(ArrayList<CrierPost> crierPosts) {
+        postList = crierPosts;
     }
 
-    public void setData(List<CrierPost> crierPostList) {
-        this.crierPostList = crierPostList;
+    public void setData(ArrayList<CrierPost> postList) {
+        this.postList = postList;
     }
 
     @Override
@@ -36,13 +36,13 @@ public class CrierAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         CrierViewHolder viewHolder = (CrierViewHolder) holder;
-        CrierPost crierPost = crierPostList.get(position);
+        CrierPost crierPost = postList.get(position);
         viewHolder.bind(crierPost);
     }
 
     @Override
     public int getItemCount() {
-        return crierPostList.size();
+        return postList.size();
     }
 
 

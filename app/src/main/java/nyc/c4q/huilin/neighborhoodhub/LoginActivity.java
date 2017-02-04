@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,7 +38,8 @@ import nyc.c4q.huilin.neighborhoodhub.utils.Constants;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    LinearLayout llFragmentHolder;
+    FrameLayout flFragmentHolder;
+    LinearLayout llLoginMain;
     ImageView profileImage;
     TextView googleLogin;
     TextView facebookLogin;
@@ -54,7 +56,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        llFragmentHolder = (LinearLayout) findViewById(R.id.ll_fragment_holder);
+        flFragmentHolder = (FrameLayout) findViewById(R.id.fl_fragment_holder);
+        llLoginMain = (LinearLayout) findViewById(R.id.ll_login_main);
         profileImage = (ImageView) findViewById(R.id.iv_login);
         googleLogin = (TextView) findViewById(R.id.tv_google_login);
         facebookLogin = (TextView) findViewById(R.id.tv_facebook_login);
@@ -131,7 +134,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             default:
                 break;
         }
-
     }
 
     @Override
@@ -144,7 +146,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void facebookLoginProcess() {
         Toast.makeText(this, "Logging in using Facebook", Toast.LENGTH_SHORT).show();
-        getSupportFragmentManager().beginTransaction().replace(llFragmentHolder.getId(),
+        llLoginMain.setVisibility(View.GONE);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment_holder,
                 CrierRecyclerFragment.newInstance()).commit();
     }
 
