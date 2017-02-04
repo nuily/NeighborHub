@@ -16,7 +16,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -53,30 +56,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         facebookLogin = (TextView) findViewById(R.id.tv_facebook_login);
         userProfilePic = null;
 
-
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken(BuildConfig.O_AUTH_CLIENT_ID)
-                .build();
-
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+        gso = buildGoogleSignInOptions();
+        googleApiClient = buildGoogleApiClient();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        authListener = new FirebaseAuth.AuthStateListener() {
+        authListener = getAuthStateListener();
+    }
+
+    @NonNull
+    private FirebaseAuth.AuthStateListener getAuthStateListener() {
+        return new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    // When successfully authenticated through Firebase, get the user account data
                     Log.d(Constants.LOGIN_ACTIVITY, "onAuthStateChanged: signed in: " + user.getUid());
+                    Intent intent = new Intent(getBaseContext(), DisplayActivity.class);
+                    startActivity(intent);
                 } else {
+                    // What should happen when user signs out?
                     Log.d(Constants.LOGIN_ACTIVITY, "onAuthStateChanged: signed out");
                 }
             }
         };
+    }
+
+    @NonNull
+    private GoogleApiClient buildGoogleApiClient() {
+        return new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+    }
+
+    @NonNull
+    private GoogleSignInOptions buildGoogleSignInOptions() {
+        return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(BuildConfig.O_AUTH_CLIENT_ID)
+                .build();
     }
 
     @Override
@@ -86,30 +105,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-        protected void onResume () {
-            super.onResume();
+    protected void onResume() {
+        super.onResume();
 
-            Picasso.with(this).load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
-            googleLogin.setOnClickListener(this);
-            facebookLogin.setOnClickListener(this);
+        Picasso.with(this).load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
+        googleLogin.setOnClickListener(this);
+        facebookLogin.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.tv_google_login:
+                googleLoginProcess();
+                break;
+            case R.id.tv_facebook_login:
+                facebookLoginProcess();
+                break;
+            default:
+                break;
         }
 
-        @Override
-        public void onClick (View view){
-
-            switch (view.getId()) {
-                case R.id.tv_google_login:
-                    googleLoginProcess();
-                    break;
-                case R.id.tv_facebook_login:
-                    facebookLoginProcess();
-                    break;
-                default:
-                    break;
-            }
-
-        }
+    }
 
     @Override
     protected void onStop() {
@@ -125,8 +144,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void googleLoginProcess() {
         Toast.makeText(this, "Logging in using Google", Toast.LENGTH_SHORT).show();
-//        Intent intent = new Intent(this, DisplayActivity.class);
-//        startActivity(intent);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, Constants.RC_GOOGLE_LOGIN);
     }
@@ -149,15 +166,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(Constants.LOGIN_ACTIVITY, "handleSignInResult: " + result.isSuccess());
         if (result.isSuccess()) {
-            // acct contains signed-in user information
             GoogleSignInAccount acct = result.getSignInAccount();
-            displayName = acct.getDisplayName();
-            gmail = acct.getEmail();
-            // Google Sign In was successful, authenticate with Firebase
             firebaseAuthWithGoogle(acct);
         } else {
-            // Google Sign In failed, update UI appropriately
-            // ...
+            Toast.makeText(this, "Google Login Failed", Toast.LENGTH_LONG).show();
             Log.d(Constants.LOGIN_ACTIVITY, "handleSignInResult: failed");
         }
 
@@ -167,7 +179,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d(Constants.LOGIN_ACTIVITY, "firebaseAuthWithGoogle: " + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(Constants.LOGIN_ACTIVITY, "onComplete: " + task.isSuccessful());
+                        if (!task.isSuccessful()) {
+                            Log.w(Constants.LOGIN_ACTIVITY, "onComplete: " + task.getException());
+                            Toast.makeText(LoginActivity.this, "Firebase Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
 }
