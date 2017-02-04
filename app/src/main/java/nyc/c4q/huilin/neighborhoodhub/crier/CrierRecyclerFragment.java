@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import nyc.c4q.huilin.neighborhoodhub.R;
+import nyc.c4q.huilin.neighborhoodhub.model.CrierPostDataProvider;
 import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 import nyc.c4q.huilin.neighborhoodhub.model.database.CrierDatabaseHelper;
 
@@ -34,10 +35,9 @@ public class CrierRecyclerFragment extends Fragment {
     List<CrierPost> crierPostList;
     SQLiteDatabase database;
 
-    public static CrierRecyclerFragment newInstance(int index) {
+    public static CrierRecyclerFragment newInstance() {
         CrierRecyclerFragment crierFragment = new CrierRecyclerFragment();
         Bundle args = new Bundle();
-        args.putInt("index", index);
         crierFragment.setArguments(args);
         return crierFragment;
     }
@@ -72,6 +72,7 @@ public class CrierRecyclerFragment extends Fragment {
             }
         });
 
+        crierPostList = CrierPostDataProvider.postList;
         database = instantiateDatabase();
 
     }
@@ -81,18 +82,19 @@ public class CrierRecyclerFragment extends Fragment {
         database = databaseHelper.getWritableDatabase();
 
         //Populate database if empty
-        String count = "SELECT count(*) FROM table";
-        Cursor cursor = database.rawQuery(count, null);
+        Cursor cursor = database.rawQuery("SELECT count(*) FROM table", null);
         cursor.moveToFirst();
-        int iCount = cursor.getInt(0);
+        int count = cursor.getInt(0);
 
-        if(iCount > 0) {
+        if(count > 0) {
+            cursor.close();
             return database;
         } else {
             for (int i = 0; i < crierPostList.size(); i++) {
                 cupboard().withDatabase(database).put(crierPostList.get(i));
             }
         }
+        cursor.close();
         return database;
     }
 
