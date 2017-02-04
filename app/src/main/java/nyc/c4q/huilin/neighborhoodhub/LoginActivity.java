@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URI;
 
+import nyc.c4q.huilin.neighborhoodhub.crier.CrierRecyclerFragment;
 import nyc.c4q.huilin.neighborhoodhub.utils.Constants;
 
 /**
@@ -35,6 +37,7 @@ import nyc.c4q.huilin.neighborhoodhub.utils.Constants;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
+    LinearLayout llFragmentHolder;
     ImageView profileImage;
     TextView googleLogin;
     TextView facebookLogin;
@@ -51,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        llFragmentHolder = (LinearLayout) findViewById(R.id.ll_fragment_holder);
         profileImage = (ImageView) findViewById(R.id.iv_login);
         googleLogin = (TextView) findViewById(R.id.tv_google_login);
         facebookLogin = (TextView) findViewById(R.id.tv_facebook_login);
@@ -140,6 +144,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void facebookLoginProcess() {
         Toast.makeText(this, "Logging in using Facebook", Toast.LENGTH_SHORT).show();
+        getSupportFragmentManager().beginTransaction().replace(llFragmentHolder.getId(),
+                CrierRecyclerFragment.newInstance()).commit();
     }
 
     private void googleLoginProcess() {

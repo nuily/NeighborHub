@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class CrierPost implements Serializable {
+    private Long _id;
     private String title;
     private String description;
     private String user;
@@ -17,6 +18,14 @@ public class CrierPost implements Serializable {
         this.description = description;
         this.user = user;
         this.supporters = supporters;
+    }
+
+    public Long get_id() {
+        return _id;
+    }
+
+    public void set_id(Long _id) {
+        this._id = _id;
     }
 
     public String getTitle() {

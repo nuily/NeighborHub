@@ -4,18 +4,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import nl.qbusict.cupboard.QueryResultIterable;
 import nyc.c4q.huilin.neighborhoodhub.R;
-import nyc.c4q.huilin.neighborhoodhub.model.CrierPostDataProvider;
 import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 import nyc.c4q.huilin.neighborhoodhub.model.database.CrierDatabaseHelper;
 
@@ -32,7 +34,7 @@ public class CrierRecyclerFragment extends Fragment {
     TextView tvAddCrier;
 
     CrierAdapter adapter;
-    List<CrierPost> crierPostList;
+    static List<CrierPost> crierPostList;
     SQLiteDatabase database;
 
     public static CrierRecyclerFragment newInstance() {
@@ -72,9 +74,30 @@ public class CrierRecyclerFragment extends Fragment {
             }
         });
 
-        crierPostList = CrierPostDataProvider.postList;
         database = instantiateDatabase();
 
+        crierPostList = new ArrayList<>();
+        crierPostList = loadDatabase(database);
+        adapter = new CrierAdapter(crierPostList);
+        rvCrier.setAdapter(adapter);
+        rvCrier.setLayoutManager(new LinearLayoutManager(getContext()));
+
+    }
+
+    private List<CrierPost> loadDatabase(SQLiteDatabase database) {
+        try {
+            QueryResultIterable<CrierPost> iterable = cupboard()
+                    .withDatabase(database)
+                    .query(CrierPost.class)
+                    .query();
+            for (CrierPost crierPost : iterable) {
+                crierPostList.add(crierPost);
+            }
+        } catch (Exception e) {
+            Log.i("loadDataBase", "Stacktrace: " + e);
+        }
+
+        return crierPostList;
     }
 
     private SQLiteDatabase instantiateDatabase() {
@@ -82,11 +105,12 @@ public class CrierRecyclerFragment extends Fragment {
         database = databaseHelper.getWritableDatabase();
 
         //Populate database if empty
-        Cursor cursor = database.rawQuery("SELECT count(*) FROM table", null);
+
+        Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM CrierPost", null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
 
-        if(count > 0) {
+        if (count > 0) {
             cursor.close();
             return database;
         } else {
