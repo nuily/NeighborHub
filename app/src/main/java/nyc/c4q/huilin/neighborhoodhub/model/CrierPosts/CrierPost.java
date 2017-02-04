@@ -1,10 +1,12 @@
-package nyc.c4q.huilin.neighborhoodhub.crier;
+package nyc.c4q.huilin.neighborhoodhub.model.CrierPosts;
+
+import java.io.Serializable;
 
 /**
  * Created by rook on 2/3/17.
  */
 
-public class CrierPost {
+public class CrierPost implements Serializable {
     private String title;
     private String description;
     private String user;
@@ -39,5 +41,13 @@ public class CrierPost {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public int getSupporters() {
+        return supporters;
+    }
+
+    public void setSupporters(int supporters) {
+        this.supporters = supporters;
     }
 }

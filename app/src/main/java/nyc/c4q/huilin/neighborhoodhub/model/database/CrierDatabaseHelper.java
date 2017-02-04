@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nyc.c4q.huilin.neighborhoodhub.crier.CrierPost;
+import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -12,7 +12,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
  * Created by rook on 2/3/17.
  */
 
-class CrierDatabaseHelper extends SQLiteOpenHelper {
+public class CrierDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "towncrier.db";
     private static final int DATABASE_VERSION = 1;
@@ -39,9 +39,10 @@ class CrierDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         cupboard().withDatabase(database).createTables();
 
-        if (database == null){
-
-        }
+        //Remove the following if unnecessary
+//        if (database == null){
+//
+//        }
     }
 
     @Override

@@ -1,7 +1,9 @@
-package nyc.c4q.huilin.neighborhoodhub.crier;
+package nyc.c4q.huilin.neighborhoodhub.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 
 
 /**
