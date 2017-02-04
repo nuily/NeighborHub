@@ -34,10 +34,9 @@ public class CrierRecyclerFragment extends Fragment {
     List<CrierPost> crierPostList;
     SQLiteDatabase database;
 
-    public static CrierRecyclerFragment newInstance(int index) {
+    public static CrierRecyclerFragment newInstance() {
         CrierRecyclerFragment crierFragment = new CrierRecyclerFragment();
         Bundle args = new Bundle();
-        args.putInt("index", index);
         crierFragment.setArguments(args);
         return crierFragment;
     }
