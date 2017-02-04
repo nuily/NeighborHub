@@ -12,7 +12,7 @@ import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 
 public class CrierPostDataProvider {
 
-    private static List<CrierPost> postList;
+    public static List<CrierPost> postList;
 
     static {
         postList = new ArrayList<>();
