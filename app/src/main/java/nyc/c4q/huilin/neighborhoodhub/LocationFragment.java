@@ -15,12 +15,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +42,10 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     private GoogleApiClient googleApiClient;
     private Location lastLocation;
     private LocationRequest locationRequest;
+    private String name;
+    private String email;
+    private Uri photoUrl;
+    private FirebaseUser user;
 
     public LocationFragment() {
     }
@@ -53,6 +60,22 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
         super.onCreate(savedInstanceState);
         createLocationRequest();
         createGoogleAPIClient();
+        getCurrentUserInfo();
+    }
+
+    private void getCurrentUserInfo() {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            name = user.getDisplayName();
+            Log.d(TAG, "getCurrentUserInfo: " + name);
+            email = user.getEmail();
+            Log.d(TAG, "getCurrentUserInfo: " + email);
+            photoUrl = user.getPhotoUrl();
+            Log.d(TAG, "getCurrentUserInfo: " + photoUrl);
+
+        } else {
+            Toast.makeText(getContext(), "No current user", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void createLocationRequest() {
@@ -89,6 +112,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     public void onStart() {
         super.onStart();
         googleApiClient.connect();
+//        firebaseAuth.addAuthStateListener(authListener);
     }
 
     @Override
