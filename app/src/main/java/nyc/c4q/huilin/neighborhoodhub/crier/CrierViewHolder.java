@@ -17,7 +17,7 @@ import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
  * Created by rook on 2/4/17.
  */
 
-public class CrierViewHolder extends RecyclerView.ViewHolder {
+class CrierViewHolder extends RecyclerView.ViewHolder {
 
     private CardView cvPostItem;
     private LinearLayout llPostCardMain;
@@ -27,7 +27,7 @@ public class CrierViewHolder extends RecyclerView.ViewHolder {
     private TextView tvCardPostedBy;
     private TextView tvNumberPledgedCard;
 
-    public CrierViewHolder(View itemView) {
+    CrierViewHolder(View itemView) {
         super(itemView);
         cvPostItem = (CardView) itemView.findViewById(R.id.cv_post_item);
         llPostCardMain = (LinearLayout) itemView.findViewById(R.id.ll_post_card_main);
@@ -39,7 +39,7 @@ public class CrierViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void bind(final CrierPost post) {
+    void bind(final CrierPost post) {
         tvPostTitle.setText(post.getTitle());
         tvPostDescription.setText(post.getDescription());
         tvCardPostedBy.setText(post.getUser());
