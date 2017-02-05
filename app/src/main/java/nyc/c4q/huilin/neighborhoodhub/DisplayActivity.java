@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -71,7 +70,7 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_tools:
                 break;
             case R.id.nav_profile:
-                Log.d("TAG", "Clickedy Click");
+                addProfileFragment();
                 break;
             case R.id.nav_settings:
                 break;
@@ -93,6 +92,12 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     private void addCrierFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_display, CrierRecyclerFragment.newInstance())
+                .commit();
+    }
+
+    private void addProfileFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, ProfileFragment.newInstance())
                 .commit();
     }
 
