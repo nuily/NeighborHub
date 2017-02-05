@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import nyc.c4q.huilin.neighborhoodhub.chat.ChatFragment;
 import nyc.c4q.huilin.neighborhoodhub.crier.CrierRecyclerFragment;
 
 public class DisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,12 +58,14 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
                 addCrierFragment();
                 break;
             case R.id.nav_tools:
-                Log.d("TAG", "Clickedy Click");
                 break;
             case R.id.nav_profile:
                 Log.d("TAG", "Clickedy Click");
                 break;
             case R.id.nav_settings:
+                break;
+            case R.id.nav_chat:
+                addChatFragment();
                 break;
         }
 
@@ -74,6 +77,12 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     private void addCrierFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_display, CrierRecyclerFragment.newInstance())
+                .commit();
+    }
+
+    private void addChatFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, ChatFragment.newInstance())
                 .commit();
     }
 }
