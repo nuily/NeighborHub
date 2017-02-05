@@ -39,10 +39,9 @@ public class CrierDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         cupboard().withDatabase(database).createTables();
 
-        //Remove the following if unnecessary
-//        if (database == null){
-//
-//        }
+        if (database == null){
+            //Add ID's
+        }
     }
 
     @Override
