@@ -1,6 +1,7 @@
 package nyc.c4q.huilin.neighborhoodhub;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,7 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import nyc.c4q.huilin.neighborhoodhub.chat.ChatFragment;
 import nyc.c4q.huilin.neighborhoodhub.crier.CrierRecyclerFragment;
@@ -18,7 +22,9 @@ import nyc.c4q.huilin.neighborhoodhub.news.NewsFragment;
 
 public class DisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     TextView mNavHeaderMainTextV;
+    private ImageView mNavHeaderImageV;
     String username;
+    Uri profilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,11 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         NavigationView myNavigationList = (NavigationView) findViewById(R.id.nav_view);
         View view = myNavigationList.getHeaderView(0);
         mNavHeaderMainTextV = (TextView)  view.findViewById(R.id.nav_header_username_textview);
-        username = getIntent().getStringExtra("nyc.c4q.USERNAME");
+        mNavHeaderImageV = (ImageView) view.findViewById(R.id.nav_header_iview);
+        Intent intent = getIntent();
+        username = intent.getStringExtra("nyc.c4q.USERNAME");
+        profilePic = intent.getParcelableExtra(LoginActivity.USERPROFILEPIC);
+        Picasso.with(DisplayActivity.this).load(profilePic).fit().into(mNavHeaderImageV);
         mNavHeaderMainTextV.setText(username);
 
         myNavigationList.setNavigationItemSelectedListener(this);

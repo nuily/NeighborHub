@@ -13,9 +13,9 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/nav_header_iview"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
     <RelativeLayout
