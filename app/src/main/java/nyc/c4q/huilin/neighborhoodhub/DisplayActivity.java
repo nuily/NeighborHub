@@ -61,15 +61,17 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         switch(id){
             case R.id.nav_news:
                 break;
-            case R.id.nav_forums:
+            case R.id.nav_issues:
                 addCrierFragment();
                 break;
             case R.id.nav_tools:
+                addVersion2Fragment();
                 break;
             case R.id.nav_profile:
                 addProfileFragment();
                 break;
             case R.id.nav_settings:
+                addVersion2Fragment();
                 break;
             case R.id.nav_chat:
                 addChatFragment();
@@ -92,6 +94,12 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     private void addCrierFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_display, CrierRecyclerFragment.newInstance())
+                .commit();
+    }
+
+    private void addVersion2Fragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, Version2Fragment.newInstance())
                 .commit();
     }
 
