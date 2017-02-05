@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -84,8 +85,11 @@ public class CrierRecyclerFragment extends Fragment {
 
         adapter = new CrierAdapter(crierPostList);
         adapter.notifyDataSetChanged();
+        LinearLayoutManager rvLinearLayoutManager = new LinearLayoutManager(getContext());
+        rvLinearLayoutManager.setReverseLayout(true);
+        rvLinearLayoutManager.setStackFromEnd(true);
         rvCrier.setAdapter(adapter);
-        rvCrier.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvCrier.setLayoutManager(rvLinearLayoutManager);
         adapter.notifyDataSetChanged();
         System.out.println("Item Count = " + adapter.getItemCount());
 
@@ -133,8 +137,15 @@ public class CrierRecyclerFragment extends Fragment {
         Fragment fragment = CrierNewPost.newInstance();
         getFragmentManager()
                 .beginTransaction()
-                .replace(((ViewGroup) view.getParent().getParent().getParent()).getId(), fragment)
+                .replace(R.id.activity_display, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+        rvCrier.setAdapter(adapter);
     }
 }
