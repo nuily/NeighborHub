@@ -31,9 +31,13 @@ public class CrierFullFragment extends Fragment implements View.OnClickListener{
     public static CrierFullFragment newInstance(Serializable crierPost) {
         CrierFullFragment fragment = new CrierFullFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("frag_ser_crier_post", crierPost);
+        bundle.putSerializable("post", crierPost);
 
         return fragment;
+    }
+
+    public CrierFullFragment() {
+
     }
 
     @Override
@@ -59,7 +63,7 @@ public class CrierFullFragment extends Fragment implements View.OnClickListener{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadPost((CrierPost) getArguments().getSerializable("frag_ser_crier_post"));
+        loadPost((CrierPost) getArguments().getSerializable("post"));
     }
 
     private void loadPost(CrierPost post) {
@@ -72,10 +76,10 @@ public class CrierFullFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
 
-        // TODO: 2/4/17 Set OnClickListeners for Pledge and Pass buttons
         switch (view.getId()) {
             case R.id.tv_pledge:
                 Toast.makeText(view.getContext(), "Clicked Pledge", Toast.LENGTH_SHORT).show();
+                crierPost.setSupporters(crierPost.getSupporters() + 1);
                 break;
             case R.id.tv_pass:
                 Toast.makeText(view.getContext(), "Clicked Pass", Toast.LENGTH_SHORT).show();

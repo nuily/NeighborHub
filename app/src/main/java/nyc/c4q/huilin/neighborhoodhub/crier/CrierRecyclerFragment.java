@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,7 @@ public class CrierRecyclerFragment extends Fragment {
 
     CrierAdapter adapter;
     static ArrayList<CrierPost> crierPostList;
-    SQLiteDatabase database;
+    static SQLiteDatabase database;
 
     public static CrierRecyclerFragment newInstance() {
         CrierRecyclerFragment crierRecyclerFragment = new CrierRecyclerFragment();
@@ -131,6 +130,11 @@ public class CrierRecyclerFragment extends Fragment {
     }
 
     private void addNewCrier() {
-        Toast.makeText(getContext(), "Clicked Add New Crier", Toast.LENGTH_SHORT).show();
+        Fragment fragment = CrierNewPost.newInstance();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(((ViewGroup) view.getParent().getParent().getParent()).getId(), fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
