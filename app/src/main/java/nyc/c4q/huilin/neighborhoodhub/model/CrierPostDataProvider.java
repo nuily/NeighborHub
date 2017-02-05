@@ -1,7 +1,6 @@
 package nyc.c4q.huilin.neighborhoodhub.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 
@@ -12,10 +11,10 @@ import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;
 
 public class CrierPostDataProvider {
 
-    public static List<CrierPost> postList;
+    public static ArrayList<CrierPost> dataProviderPostList;
 
     static {
-        postList = new ArrayList<>();
+        dataProviderPostList = new ArrayList<>();
 
         addCrierPost(new CrierPost(
                 "New Walmart",
@@ -295,6 +294,6 @@ public class CrierPostDataProvider {
     }
 
     private static void addCrierPost(CrierPost crierPost) {
-        postList.add(crierPost);
+        dataProviderPostList.add(crierPost);
     }
 }
