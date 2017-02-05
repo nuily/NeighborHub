@@ -36,7 +36,7 @@ public class ChatFragment extends Fragment{
     private DatabaseReference reference;
     private ChildEventListener childListener;
 
-    public static final String ANONYMOUS = "anonymous";
+    public static final String ANONYMOUS = "ananymous";
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
 
     private EditText mMessageEditText;
@@ -54,6 +54,9 @@ public class ChatFragment extends Fragment{
         mMessageEditText = (EditText) view.findViewById(R.id.messageEditText);
         mSendButton = (Button) view.findViewById(R.id.sendButton);
         mMessageListView = (ListView) view.findViewById(R.id.messageListView);
+
+        mUsername = getArguments().getString("nyc.c4q.USERNAME");
+
         return view;
     }
 
@@ -71,9 +74,10 @@ public class ChatFragment extends Fragment{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        mUsername = ANONYMOUS;
+//        mUsername = ANONYMOUS;
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child("messages");

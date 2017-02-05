@@ -9,11 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import nyc.c4q.huilin.neighborhoodhub.chat.ChatFragment;
 import nyc.c4q.huilin.neighborhoodhub.crier.CrierRecyclerFragment;
 
 public class DisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    TextView mNavHeaderMainTextV;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,7 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         setUpDrawerToggle();
 
         addCrierFragment();
+
     }
 
     private void setUpDrawerToggle() {
@@ -33,6 +38,11 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         navigationActionBar.syncState();
 
         NavigationView myNavigationList = (NavigationView) findViewById(R.id.nav_view);
+        View view = myNavigationList.getHeaderView(0);
+        TextView myUsernameTextView = (TextView)  view.findViewById(R.id.nav_header_username_textview);
+        username = getIntent().getStringExtra("nyc.c4q.USERNAME");
+        myUsernameTextView.setText(username);
+
         myNavigationList.setNavigationItemSelectedListener(this);
     }
 
@@ -81,8 +91,12 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     }
 
     private void addChatFragment(){
+        ChatFragment myFrag = new ChatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("nyc.c4q.USERNAME", username);
+        myFrag.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_display, ChatFragment.newInstance())
+                .replace(R.id.activity_display, myFrag)
                 .commit();
     }
 }
