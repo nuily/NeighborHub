@@ -1,13 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:context="nyc.c4q.huilin.neighborhoodhub.LocationFragment"
-    android:background="@color/colorPrimary">
+    android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tv_latitude"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Check logs for location information" />
+        android:textSize="16sp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="Latitude Info Here" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="16sp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="Longitude Info Here" />
+
+</LinearLayout>

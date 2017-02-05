@@ -23,9 +23,7 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setUpDrawerToggle();
-
         addCrierFragment();
 
     }
@@ -62,20 +60,24 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
 
         switch(id){
             case R.id.nav_news:
-
                 break;
-            case R.id.nav_forums:
+            case R.id.nav_issues:
                 addCrierFragment();
                 break;
             case R.id.nav_tools:
+                addVersion2Fragment();
                 break;
             case R.id.nav_profile:
                 addProfileFragment();
                 break;
             case R.id.nav_settings:
+                addVersion2Fragment();
                 break;
             case R.id.nav_chat:
                 addChatFragment();
+                break;
+            case R.id.nav_location:
+                addLocationFragment();
                 break;
             case R.id.nav_logout:
                 Intent intent = new Intent(DisplayActivity.this, LoginActivity.class);
@@ -92,6 +94,18 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     private void addCrierFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_display, CrierRecyclerFragment.newInstance())
+                .commit();
+    }
+
+    private void addVersion2Fragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, Version2Fragment.newInstance())
+                .commit();
+    }
+
+    private void addLocationFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, LocationFragment.newInstance())
                 .commit();
     }
 
