@@ -39,9 +39,9 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
 
         NavigationView myNavigationList = (NavigationView) findViewById(R.id.nav_view);
         View view = myNavigationList.getHeaderView(0);
-        TextView myUsernameTextView = (TextView)  view.findViewById(R.id.nav_header_username_textview);
+        mNavHeaderMainTextV = (TextView)  view.findViewById(R.id.nav_header_username_textview);
         username = getIntent().getStringExtra("nyc.c4q.USERNAME");
-        myUsernameTextView.setText(username);
+        mNavHeaderMainTextV.setText(username);
 
         myNavigationList.setNavigationItemSelectedListener(this);
     }
