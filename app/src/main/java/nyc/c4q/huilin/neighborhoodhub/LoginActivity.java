@@ -37,6 +37,7 @@ import nyc.c4q.huilin.neighborhoodhub.utils.Constants;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private static final String USERNAME = "nyc.c4q.USERNAME";
+    public static final String USERPROFILEPIC = "nyc.c4q.USERPROFILEPIC";
     FrameLayout flFragmentHolder;
     LinearLayout llLoginMain;
     ImageView profileImage;
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.d(Constants.LOGIN_ACTIVITY, "onAuthStateChanged: signed in: " + user.getUid());
                     Intent intent = new Intent(getBaseContext(), DisplayActivity.class);
                     intent.putExtra(USERNAME, firebaseAuth.getCurrentUser().getDisplayName());
+                    intent.putExtra(USERPROFILEPIC, firebaseAuth.getCurrentUser().getPhotoUrl());
                     startActivity(intent);
                     finish();
                 } else {
