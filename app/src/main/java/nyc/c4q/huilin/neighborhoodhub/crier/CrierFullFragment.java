@@ -101,6 +101,7 @@ public class CrierFullFragment extends Fragment implements View.OnClickListener{
                 cupboard().withDatabase(CrierRecyclerFragment.database).delete(crierPost);
                 crierPost.setSupporters(supporters + 1);
                 cupboard().withDatabase(CrierRecyclerFragment.database).put(crierPost);
+                CrierRecyclerFragment.adapter.notifyDataSetChanged();
                 getActivity().onBackPressed();
                 break;
             case R.id.tv_pass:

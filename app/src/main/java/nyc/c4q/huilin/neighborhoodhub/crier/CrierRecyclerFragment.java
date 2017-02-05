@@ -33,7 +33,7 @@ public class CrierRecyclerFragment extends Fragment {
     RecyclerView rvCrier;
     TextView tvAddCrier;
 
-    CrierAdapter adapter;
+    static CrierAdapter adapter;
     static ArrayList<CrierPost> crierPostList;
     static SQLiteDatabase database;
 
