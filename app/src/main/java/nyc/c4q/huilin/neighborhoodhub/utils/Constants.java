@@ -11,5 +11,6 @@ public final class Constants {
     public static final String FIREBASE_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
     public static final int RC_GOOGLE_LOGIN = 3553;
     public static final String LOGIN_ACTIVITY = LoginActivity.class.getSimpleName();
+    public static final int REQUEST_CHECK_SETTINGS = 012;
 
 }
