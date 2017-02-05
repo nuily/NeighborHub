@@ -2,7 +2,6 @@ package nyc.c4q.huilin.neighborhoodhub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,7 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 import android.view.View;
 import android.widget.TextView;
 
@@ -62,7 +60,6 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
 
         switch(id){
             case R.id.nav_news:
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_forums:
                 addCrierFragment();
@@ -76,6 +73,9 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_chat:
                 addChatFragment();
+                break;
+            case R.id.nav_location:
+                addLocationFragment();
                 break;
             case R.id.nav_logout:
                 Intent intent = new Intent(DisplayActivity.this, LoginActivity.class);
@@ -92,6 +92,12 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
     private void addCrierFragment() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.activity_display, CrierRecyclerFragment.newInstance())
+                .commit();
+    }
+
+    private void addLocationFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, LocationFragment.newInstance())
                 .commit();
     }
 
