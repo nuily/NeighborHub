@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import nyc.c4q.huilin.neighborhoodhub.chat.ChatFragment;
 import nyc.c4q.huilin.neighborhoodhub.crier.CrierRecyclerFragment;
+import nyc.c4q.huilin.neighborhoodhub.news.NewsFragment;
 
 public class DisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     TextView mNavHeaderMainTextV;
@@ -63,7 +64,7 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
 
         switch(id){
             case R.id.nav_news:
-
+                addNewsFragment();
                 break;
             case R.id.nav_forums:
                 addCrierFragment();
@@ -88,6 +89,12 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START, true);
         return true;
+    }
+
+    private void addNewsFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, NewsFragment.newInstance())
+                .commit();
     }
 
     private void addCrierFragment() {
