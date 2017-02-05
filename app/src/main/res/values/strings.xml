@@ -16,4 +16,14 @@
     <string name="facebook_application_id" translatable="false">APP_ID</string>
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fbAPP_ID</string>
+    <string name="user_profile_name">Ashique Chowdhury</string>
+    <string name="user_description">Talented Software Developer</string>
+    <string name="home_location">Woodside</string>
+    <string-array name="navigation_drawer_options">
+        <item>Log_Out</item>
+        <item>Log_In</item>
+        <item>Local_News</item>
+    </string-array>
+    <string name="navigation_toolbar_open">Navigation Drawer Opened</string>
+    <string name="navigation_toolbar_close">Navigation Drawer Closed</string>
 </resources>
