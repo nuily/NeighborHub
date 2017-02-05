@@ -1,12 +1,10 @@
 package nyc.c4q.huilin.neighborhoodhub;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,34 +28,24 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.TimeUnit;
 
 import nyc.c4q.huilin.neighborhoodhub.utils.Constants;
 
-
-/**
- * Activities that contain this fragment must implement the
- * {@link LocationFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class LocationFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         ResultCallback<LocationSettingsResult> {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 204;
     private final String TAG = getClass().getSimpleName();
 
-    private OnFragmentInteractionListener mListener;
     private GoogleApiClient googleApiClient;
     private Location lastLocation;
     private LocationRequest locationRequest;
-    private String name;
-    private String email;
-    private Uri photoUrl;
-    private FirebaseUser user;
     private LocationSettingsRequest locationSettingsRequest;
+    private TextView latitudeTV;
+    private View view;
+    private TextView longitudeTV;
 
     public LocationFragment() {
     }
@@ -71,24 +59,8 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createGoogleAPIClient();
-        getCurrentUserInfo();
         createLocationRequest();
         createLocationSettingsRequest();
-    }
-
-    private void getCurrentUserInfo() {
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            name = user.getDisplayName();
-            Log.d(TAG, "getCurrentUserInfo: " + name);
-            email = user.getEmail();
-            Log.d(TAG, "getCurrentUserInfo: " + email);
-            photoUrl = user.getPhotoUrl();
-            Log.d(TAG, "getCurrentUserInfo: " + photoUrl);
-
-        } else {
-            Toast.makeText(getContext(), "No current user", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void checkLocationSettings() {
@@ -128,37 +100,16 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_location, container, false);
-    }
-
-    // Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        view = inflater.inflate(R.layout.fragment_location, container, false);
+        latitudeTV = (TextView) view.findViewById(R.id.tv_latitude);
+        longitudeTV = (TextView) view.findViewById(R.id.tv_longitude);
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         googleApiClient.connect();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -213,8 +164,9 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
                 lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
                 if (lastLocation != null) {
-                    Log.i(TAG, "onResult: " + String.valueOf(
-                            lastLocation.getLatitude() + String.valueOf(lastLocation.getLongitude())));
+                    latitudeTV.setText("Latitude: " + lastLocation.getLatitude());
+                    longitudeTV.setText("Longitude: " + lastLocation.getLongitude());
+
 
                 } else {
                     Log.d(TAG, "onResult: null object");
@@ -237,20 +189,5 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         checkLocationSettings();
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
