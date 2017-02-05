@@ -90,7 +90,6 @@ public class ChatFragment extends Fragment{
                 // Clear input box
                 reference.push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
-                Toast.makeText(getActivity(), "Working",Toast.LENGTH_LONG).show();
             }
         });
 

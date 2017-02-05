@@ -21,6 +21,7 @@
 
             <ImageView
                 android:id="@+id/iv_login"
+                android:src="@drawable/default_profile"
                 android:layout_width="230dp"
                 android:layout_height="230dp"
                 android:layout_gravity="center_horizontal" />

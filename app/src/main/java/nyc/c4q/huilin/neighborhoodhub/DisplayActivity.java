@@ -1,5 +1,6 @@
 package nyc.c4q.huilin.neighborhoodhub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -76,6 +77,11 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
                 break;
             case R.id.nav_chat:
                 addChatFragment();
+                break;
+            case R.id.nav_logout:
+                Intent intent = new Intent(DisplayActivity.this, LoginActivity.class);
+                intent.putExtra("nyc.c4q.LOGOUT", true);
+                startActivity(intent);
                 break;
         }
 

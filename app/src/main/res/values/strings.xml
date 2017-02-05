@@ -18,7 +18,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fbAPP_ID</string>
     <string name="user_profile_name">Ash Chowdhury</string>
     <string name="user_description">Talented Software Developer</string>
-    <string name="home_location">Woodside</string>
+    <string name="home_location">Hunts Point</string>
     <string-array name="navigation_drawer_options">
         <item>Log_Out</item>
         <item>Log_In</item>
