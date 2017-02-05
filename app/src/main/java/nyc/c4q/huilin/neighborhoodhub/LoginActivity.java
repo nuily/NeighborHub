@@ -25,7 +25,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.squareup.picasso.Picasso;
 
 import java.net.URI;
 
@@ -51,11 +50,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String googleId;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authListener;
+    private boolean logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         flFragmentHolder = (FrameLayout) findViewById(R.id.fl_fragment_holder);
         llLoginMain = (LinearLayout) findViewById(R.id.ll_login_main);
         profileImage = (ImageView) findViewById(R.id.iv_login);
@@ -67,7 +69,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         googleApiClient = buildGoogleApiClient();
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        logout = getIntent().getBooleanExtra("nyc.c4q.LOGOUT", false);
+
+        if(logout == true) {
+            firebaseAuth.signOut();
+        }
+
         authListener = getAuthStateListener();
+
     }
 
     @NonNull
@@ -116,8 +126,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onResume() {
         super.onResume();
 
-        Picasso.with(this).
-                load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
         googleLogin.setOnClickListener(this);
         facebookLogin.setOnClickListener(this);
 
