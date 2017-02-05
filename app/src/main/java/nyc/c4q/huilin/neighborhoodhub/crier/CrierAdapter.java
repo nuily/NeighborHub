@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import nyc.c4q.huilin.neighborhoodhub.R;
 import nyc.c4q.huilin.neighborhoodhub.model.CrierPosts.CrierPost;

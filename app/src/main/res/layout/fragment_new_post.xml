@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="21">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <EditText
+            android:id="@+id/et_new_post_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:hint="Title"
+            android:textColor="@color/colorPostHeading"
+            android:textSize="30dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv_new_post"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15">
+
+        <EditText
+            android:id="@+id/et_new_post_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:hint="Body"
+            android:textColor="@color/colorPostText"
+            android:textSize="20dp" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_save_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorAccent"
+                android:drawableLeft="@drawable/save_48"
+                android:text="Save Post"
+                android:textSize="24dp"
+                android:gravity="center"
+                android:textColor="@color/colorTextLight"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

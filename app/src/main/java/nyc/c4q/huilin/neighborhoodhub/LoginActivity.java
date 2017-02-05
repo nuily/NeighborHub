@@ -115,7 +115,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onResume() {
         super.onResume();
 
-        Picasso.with(this).load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
+        Picasso.with(this).
+                load(R.drawable.default_profile).error(R.drawable.default_profile).into(profileImage);
         googleLogin.setOnClickListener(this);
         facebookLogin.setOnClickListener(this);
 
@@ -146,9 +147,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void facebookLoginProcess() {
         Toast.makeText(this, "Logging in using Facebook", Toast.LENGTH_SHORT).show();
-        llLoginMain.setVisibility(View.GONE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment_holder,
-                CrierRecyclerFragment.newInstance()).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.ll_login_main, CrierRecyclerFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 
     private void googleLoginProcess() {
@@ -160,6 +163,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @Override
