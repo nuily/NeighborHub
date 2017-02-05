@@ -1,5 +1,6 @@
 package nyc.c4q.huilin.neighborhoodhub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
@@ -8,14 +9,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import nyc.c4q.huilin.neighborhoodhub.chat.ChatFragment;
 import nyc.c4q.huilin.neighborhoodhub.crier.CrierRecyclerFragment;
 
 public class DisplayActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    TextView mNavHeaderMainTextV;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,7 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_main);
         setUpDrawerToggle();
         addCrierFragment();
+
     }
 
     private void setUpDrawerToggle() {
@@ -33,6 +38,11 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         navigationActionBar.syncState();
 
         NavigationView myNavigationList = (NavigationView) findViewById(R.id.nav_view);
+        View view = myNavigationList.getHeaderView(0);
+        mNavHeaderMainTextV = (TextView)  view.findViewById(R.id.nav_header_username_textview);
+        username = getIntent().getStringExtra("nyc.c4q.USERNAME");
+        mNavHeaderMainTextV.setText(username);
+
         myNavigationList.setNavigationItemSelectedListener(this);
     }
 
@@ -60,12 +70,17 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_tools:
                 break;
             case R.id.nav_profile:
-                Log.d("TAG", "Clickedy Click");
+                addProfileFragment();
                 break;
             case R.id.nav_settings:
                 break;
             case R.id.nav_chat:
                 addChatFragment();
+                break;
+            case R.id.nav_logout:
+                Intent intent = new Intent(DisplayActivity.this, LoginActivity.class);
+                intent.putExtra("nyc.c4q.LOGOUT", true);
+                startActivity(intent);
                 break;
         }
 
@@ -74,15 +89,25 @@ public class DisplayActivity extends AppCompatActivity implements NavigationView
         return true;
     }
 
-    private void addCrierFragment(Fragment fragment) {
+    private void addCrierFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_display, fragment)
+                .replace(R.id.activity_display, CrierRecyclerFragment.newInstance())
+                .commit();
+    }
+
+    private void addProfileFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.activity_display, ProfileFragment.newInstance())
                 .commit();
     }
 
     private void addChatFragment(){
+        ChatFragment myFrag = new ChatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("nyc.c4q.USERNAME", username);
+        myFrag.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.activity_display, ChatFragment.newInstance())
+                .replace(R.id.activity_display, myFrag)
                 .commit();
     }
 }
