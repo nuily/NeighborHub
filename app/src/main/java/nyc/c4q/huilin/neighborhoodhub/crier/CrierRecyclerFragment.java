@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class CrierRecyclerFragment extends Fragment {
 
     CrierAdapter adapter;
     static ArrayList<CrierPost> crierPostList;
-    SQLiteDatabase database;
+    static SQLiteDatabase database;
 
     public static CrierRecyclerFragment newInstance() {
         CrierRecyclerFragment crierRecyclerFragment = new CrierRecyclerFragment();
@@ -85,8 +85,11 @@ public class CrierRecyclerFragment extends Fragment {
 
         adapter = new CrierAdapter(crierPostList);
         adapter.notifyDataSetChanged();
+        LinearLayoutManager rvLinearLayoutManager = new LinearLayoutManager(getContext());
+        rvLinearLayoutManager.setReverseLayout(true);
+        rvLinearLayoutManager.setStackFromEnd(true);
         rvCrier.setAdapter(adapter);
-        rvCrier.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvCrier.setLayoutManager(rvLinearLayoutManager);
         adapter.notifyDataSetChanged();
         System.out.println("Item Count = " + adapter.getItemCount());
 
@@ -131,6 +134,18 @@ public class CrierRecyclerFragment extends Fragment {
     }
 
     private void addNewCrier() {
-        Toast.makeText(getContext(), "Clicked Add New Crier", Toast.LENGTH_SHORT).show();
+        Fragment fragment = CrierNewPost.newInstance();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_display, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+        rvCrier.setAdapter(adapter);
     }
 }
